@@ -6,7 +6,7 @@ async function bootstrap() {
   const overlay = document.getElementById('overlay');
   const startButton = document.getElementById('start-button');
 
-  if (!container || !overlay || !(startButton instanceof HTMLButtonElement)) {
+  if (!container || !overlay || !startButton) {
     throw new Error('Missing required DOM elements');
   }
 
@@ -14,42 +14,10 @@ async function bootstrap() {
   await saveSystem.initialize();
 
   const game = new Game(container, saveSystem);
-  let hasStarted = false;
-  let isStarting = false;
 
-  const handlePointerLock = () => {
+  startButton.addEventListener('click', async () => {
     overlay.classList.remove('visible');
-    startButton.disabled = true;
-
-    if (hasStarted || isStarting) {
-      return;
-    }
-
-    isStarting = true;
-    game
-      .start()
-      .then(() => {
-        hasStarted = true;
-      })
-      .catch((error) => {
-        console.error('Failed to start Tropical Lagoon', error);
-        overlay.classList.add('visible');
-        startButton.disabled = false;
-      })
-      .finally(() => {
-        isStarting = false;
-      });
-  };
-
-  const handlePointerUnlock = () => {
-    overlay.classList.add('visible');
-    startButton.disabled = false;
-  };
-
-  game.onPointerLockChange(handlePointerLock, handlePointerUnlock);
-
-  startButton.addEventListener('click', () => {
-    game.requestPointerLock();
+    await game.start();
   });
 
   window.addEventListener('beforeunload', () => {

@@ -87,14 +87,6 @@ export default class FirstPersonController extends EventDispatcher {
     this.pitch = pitch;
   }
 
-  public lockPointer(): void {
-    this.controls.lock();
-  }
-
-  public unlockPointer(): void {
-    this.controls.unlock();
-  }
-
   public dispose(): void {
     document.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('keyup', this.onKeyUp);
