@@ -15,27 +15,40 @@ async function bootstrap() {
 
   const game = new Game(container, saveSystem);
   let hasStarted = false;
+  let isStarting = false;
 
-  game.onPointerLockChange(
-    () => {
-      overlay.classList.remove('visible');
-      startButton.disabled = true;
-    },
-    () => {
-      overlay.classList.add('visible');
-      startButton.disabled = false;
-    }
-  );
-
-  startButton.addEventListener('click', async () => {
+  const handlePointerLock = () => {
     overlay.classList.remove('visible');
     startButton.disabled = true;
 
-    if (!hasStarted) {
-      await game.start();
-      hasStarted = true;
+    if (hasStarted || isStarting) {
+      return;
     }
 
+    isStarting = true;
+    game
+      .start()
+      .then(() => {
+        hasStarted = true;
+      })
+      .catch((error) => {
+        console.error('Failed to start Tropical Lagoon', error);
+        overlay.classList.add('visible');
+        startButton.disabled = false;
+      })
+      .finally(() => {
+        isStarting = false;
+      });
+  };
+
+  const handlePointerUnlock = () => {
+    overlay.classList.add('visible');
+    startButton.disabled = false;
+  };
+
+  game.onPointerLockChange(handlePointerLock, handlePointerUnlock);
+
+  startButton.addEventListener('click', () => {
     game.requestPointerLock();
   });
 
