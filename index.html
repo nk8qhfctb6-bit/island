@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tropical Lagoon</title>
+    <meta
+      name="description"
+      content="A serene, nostalgic tropical island exploration sandbox built with Three.js."
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #083040;
+        background: radial-gradient(circle at top, #c0f1ff, #69c2ff 70%);
+      }
+
+      #app {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        backdrop-filter: blur(3px);
+      }
+
+      .overlay.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .overlay h1 {
+        font-size: 3.5rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      }
+
+      .overlay p {
+        max-width: 420px;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        font-size: 1.1rem;
+      }
+
+      #start-button {
+        background: linear-gradient(135deg, #2cd8ff, #2ab0ff);
+        border: none;
+        color: #083040;
+        font-weight: 700;
+        padding: 0.9rem 2.4rem;
+        border-radius: 999px;
+        font-size: 1.05rem;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(12, 131, 214, 0.45);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      #start-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(12, 131, 214, 0.55);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="overlay" class="overlay visible">
+        <h1>Tropical Lagoon</h1>
+        <p>Click to begin your island escape.</p>
+        <button id="start-button">Enter Island</button>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
