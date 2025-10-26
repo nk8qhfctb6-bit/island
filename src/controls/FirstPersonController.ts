@@ -12,12 +12,7 @@ const MOVE_SPEED = 8;
 const GRAVITY = 30;
 const JUMP_VELOCITY = 8;
 
-type PointerLockEvents = {
-  lock: { target?: unknown };
-  unlock: { target?: unknown };
-};
-
-export default class FirstPersonController extends EventDispatcher<PointerLockEvents> {
+export default class FirstPersonController extends EventDispatcher {
   private readonly controls: PointerLockControls;
   private readonly velocity = new Vector3();
   private readonly direction = new Vector3();
@@ -90,14 +85,6 @@ export default class FirstPersonController extends EventDispatcher<PointerLockEv
     object.rotation.set(pitch, yaw, 0, 'YXZ');
     this.yaw = yaw;
     this.pitch = pitch;
-  }
-
-  public lockPointer(): void {
-    this.controls.lock();
-  }
-
-  public unlockPointer(): void {
-    this.controls.unlock();
   }
 
   public dispose(): void {

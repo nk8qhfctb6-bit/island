@@ -29,7 +29,6 @@ export default class Game {
   private readonly ocean: Ocean;
   private readonly sky: SkyDome;
   private readonly saveSystem: SaveSystem;
-  private pointerLockHandlers: Array<{ onLock: () => void; onUnlock: () => void }> = [];
 
   constructor(private readonly container: HTMLElement, saveSystem: SaveSystem) {
     this.saveSystem = saveSystem;
@@ -77,25 +76,6 @@ export default class Game {
     this.controller.dispose();
     this.interactionManager.dispose();
     window.removeEventListener('resize', this.onResize);
-
-    this.pointerLockHandlers.forEach(({ onLock, onUnlock }) => {
-      this.controller.removeEventListener('lock', onLock);
-      this.controller.removeEventListener('unlock', onUnlock);
-    });
-    this.pointerLockHandlers = [];
-  }
-
-  public requestPointerLock(): void {
-    this.controller.lockPointer();
-  }
-
-  public onPointerLockChange(onLock: () => void, onUnlock: () => void): void {
-    const lockHandler = () => onLock();
-    const unlockHandler = () => onUnlock();
-
-    this.pointerLockHandlers.push({ onLock: lockHandler, onUnlock: unlockHandler });
-    this.controller.addEventListener('lock', lockHandler);
-    this.controller.addEventListener('unlock', unlockHandler);
   }
 
   private loadEnvironment = async () => {
